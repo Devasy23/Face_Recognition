@@ -23,7 +23,7 @@ def face_extractor(frame):
     if faces == ():
         return None
     # crop all faces found
-    st.write(type(faces))
+    print(type(faces))
     for (x,y,w,h) in faces:
         cropped_face = img[y:y+h, x:x+w]
     return av.VideoFrame.from_ndarray(cropped_face, format="bgr24")
