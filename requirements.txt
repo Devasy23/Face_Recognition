@@ -2,5 +2,4 @@ streamlit
 opencv-python-headless
 streamlit-webrtc
 numpy
-pickle
 av
