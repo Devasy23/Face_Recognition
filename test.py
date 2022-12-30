@@ -6,6 +6,7 @@ import cv2
 import av
 import pandas as pd
 import pickle
+import os
 
 # Initialize a list to store the captured images
 images = []
@@ -50,7 +51,10 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
 
+cwd = os.getcwd()
 
+# Get a list of all files and directories in the cwd
+files_and_dirs = os.listdir(cwd)
 
 st.write("Capture complete!")
 x= st.button("Start")
@@ -58,7 +62,7 @@ if x:
     # download button for test_1.jpg
     # st.write("Download the image below")
     # st.image("test_1.jpg", width=200)
-    
+    st.write(files_and_dirs)
     st.download_button("Download", "test_1.jpg", "test_1.jpg")
     
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
