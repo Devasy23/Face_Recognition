@@ -36,11 +36,11 @@ def callback(frame):
     count=1
     img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
     file_name_path = f"{name}_{count}.jpg"
-    face = face_extractor(frame)
-    face = cv2.resize(face, (168,192))
-    cv2.imwrite(file_name_path, face)
+    # face = face_extractor(frame)
+    # face = cv2.resize(face, (168,192))
+    cv2.imwrite(file_name_path, img)
     # cv2.imwrite("test.png", img)
-    return av.VideoFrame.from_ndarray(face, format="bgr24")
+    return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 # Stream video from the user's webcam using the webrtc_streamer function
 webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={  # Add this line
