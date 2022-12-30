@@ -51,6 +51,9 @@ st.write("Capture complete!")
 x= st.button("Start")
 if x:
     # download button to download the captured images
+    for i in range(len(images)):
+        st.image(images[i], width=200)
+        st.write(f"Picture {i} of {len(images)}")
     images = np.array(images)
     # st.image(images, width=200)
     st.write(images.shape)
