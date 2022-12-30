@@ -3,3 +3,4 @@ opencv-python
 streamlit_webrtc
 numpy
 opencv-python-headless
+av
