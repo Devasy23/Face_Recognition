@@ -4,6 +4,7 @@ import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
 import cv2
 import av
+import pickle
 
 # Initialize a list to store the captured images
 images = []
@@ -45,7 +46,7 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
 def convert(images):
-    return np.savetxt("images.csv", images, delimiter=",")
+    return pickle.dump(images, open("images.pkl", "wb"))
 
 st.write("Capture complete!")
 x= st.button("Start")
@@ -55,6 +56,6 @@ if x:
     # st.image(images, width=200)
     st.write(images.shape)
     # np.save("images.npy", images)
-    data = convert(images)
-    st.download_button(label="Download images", data=data, file_name="images.csv", mime="text/csv")
+    contents = convert(images)
+    st.download_button("Dwnload binary", contents)
     st.write("Capture complete!")
