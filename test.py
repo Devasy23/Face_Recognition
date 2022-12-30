@@ -2,6 +2,8 @@ import threading
 import numpy as np
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
+import cv2
+import av
 
 # Initialize a list to store the captured images
 images = []
@@ -10,25 +12,12 @@ images = []
 count = 0
 
 # Define a transformer class to process the video frames
-class FrameCapturer(VideoTransformerBase):
-    def __init__(self):
-        self.count = 0
+def callback(frame):
+    img = frame.to_ndarray(format="bgr24")
 
-    def transform(self, frame):
-        # Convert the frame to a NumPy array
-        image = frame.to_ndarray(format="bgr24")
+    img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
 
-        # Add the image to the list of images
-        images.append(image)
-
-        # Increment the count
-        self.count += 1
-
-        # If we have collected 10 images, stop capturing
-        if self.count == 10:
-            return None
-
-        return image
+    return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 # Stream video from the user's webcam using the webrtc_streamer function
 webrtc_streamer(
@@ -36,7 +25,7 @@ webrtc_streamer(
         rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
         media_stream_constraints={"video": True, "audio": False},
     ),
-    video_transformer_factory=FrameCapturer,
+    video_transformer_factory=callback,
     key="unique-stream-key"
 )
 
