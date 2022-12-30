@@ -73,7 +73,9 @@ if x:
     # st.image("test_1.jpg", width=200)
     st.write(files_and_dirs)
     num = st.number_input("Enter the number of images to be captured", min_value=1, max_value=10, value=1)
-    st.image("test_{num}.jpg", width=200)
+    if st.button("show"):
+        stringimg = "test_"+str(num)+".jpg"
+        st.image(stringimg, width=200)
     
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
     
