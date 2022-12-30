@@ -37,7 +37,9 @@ webrtc_streamer(
         media_stream_constraints={"video": True, "audio": False},
     ),
     video_transformer_factory=FrameCapturer,
+    key="unique-stream-key"
 )
+
 
 # Display the captured images
 for i, image in enumerate(images):
