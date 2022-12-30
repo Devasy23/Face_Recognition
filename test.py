@@ -45,7 +45,7 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
 def convert(images):
-    return np.save("images.npy", images)
+    return np.savetxt("images.csv", images, delimiter=",")
 
 st.write("Capture complete!")
 x= st.button("Start")
@@ -55,5 +55,6 @@ if x:
     # st.image(images, width=200)
     st.write(images.shape)
     # np.save("images.npy", images)
-    st.download_button(label="Download images", data=convert(images), file_name="images.npy", mime="application/octet-stream")
+    data = convert(images)
+    st.download_button(label="Download images", data=data, file_name="images.csv", mime="text/csv")
     st.write("Capture complete!")
