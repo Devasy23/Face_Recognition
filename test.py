@@ -54,6 +54,6 @@ if x:
     images = np.array(images)
     # st.image(images, width=200)
     st.write(images.shape)
-    st.write(images[0].shape)
+    # st.write(images[0].shape)
     st.write(images)
     st.write("Capture complete!")
