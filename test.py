@@ -1,7 +1,7 @@
 import threading
 import numpy as np
 import streamlit as st
-from streamlit-webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
 
 # Initialize a list to store the captured images
 images = []
