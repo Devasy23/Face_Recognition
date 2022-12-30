@@ -34,12 +34,15 @@ def callback(frame):
     img = frame.to_ndarray(format="bgr24")
     name="test"
     # count+=1
+    # number of jpg files in the folder is equal to the count
+    cnt= count_jpgfiles(os.getcwd())
     # img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
     random = np.random.randint(0, 1000)
-    file_name_path = f"{name}_{random}.jpg"
+    file_name_path = f"{name}_{cnt}.jpg"
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
     cv2.imwrite(file_name_path, face)
+    cnt+=1
     # cv2.imwrite("test.png", img)
     return av.VideoFrame.from_ndarray(face, format="bgr24")
 
@@ -48,7 +51,12 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
     })
 
-
+def count_jpgfiles(dir):
+    count = 0
+    for file in os.listdir(dir):
+        if file.endswith(".jpg"):
+            count += 1
+    return count
 
 
 
