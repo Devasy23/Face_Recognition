@@ -55,7 +55,11 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 st.write("Capture complete!")
 x= st.button("Start")
 if x:
-    # download button to download the captured images
+    # download button for test_1.jpg
+    # st.write("Download the image below")
+    st.image("test_1.jpg", width=200)
+    # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
+    
     for i in range(len(images)):
         st.image(images[i], width=200)
         st.write(f"Picture {i} of {len(images)}")
