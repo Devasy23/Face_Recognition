@@ -42,7 +42,7 @@ def callback(frame):
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
     cv2.imwrite(file_name_path, face)
-    cnt+=1
+    
     # cv2.imwrite("test.png", img)
     return av.VideoFrame.from_ndarray(face, format="bgr24")
 
@@ -72,7 +72,8 @@ if x:
     # st.write("Download the image below")
     # st.image("test_1.jpg", width=200)
     st.write(files_and_dirs)
-    st.image("test_0.jpg", width=200)
+    num = st.number_input("Enter the number of images to be captured", min_value=1, max_value=10, value=1)
+    st.image("test_{num}.jpg", width=200)
     
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
     
