@@ -45,8 +45,10 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
  
 st.write("Capture complete!")
-# download button to download the captured images
-images = np.array(images)
-st.image(images, width=200)
-st.write(images.shape)
-st.write("Capture complete!")
+x= st.button("Start")
+if x:
+    # download button to download the captured images
+    images = np.array(images)
+    st.image(images, width=200)
+    st.write(images.shape)
+    st.write("Capture complete!")
