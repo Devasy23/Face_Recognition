@@ -1,6 +1,6 @@
 streamlit
 opencv-python
-streamlit_webrtc
+streamlit-webrtc
 numpy
 opencv-python-headless
 av
