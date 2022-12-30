@@ -2,6 +2,7 @@ import streamlit as st
 import cv2
 import numpy as np
 import random
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
 
 
 def train_face_recognition():
