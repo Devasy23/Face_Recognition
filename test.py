@@ -63,7 +63,7 @@ if x:
     # st.write("Download the image below")
     # st.image("test_1.jpg", width=200)
     st.write(files_and_dirs)
-    st.image("test_1.jpg", width=200)
+    st.image("test_0.jpg", width=200)
     
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
     
