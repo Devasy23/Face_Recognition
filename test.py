@@ -51,4 +51,6 @@ if x:
     images = np.array(images)
     # st.image(images, width=200)
     st.write(images.shape)
+    np.save("images.npy", images)
+    st.download_button(label="Download images", data=images, file_name="images.npy", mime="application/octet-stream")
     st.write("Capture complete!")
