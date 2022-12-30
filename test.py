@@ -54,6 +54,7 @@ if x:
     for i in range(len(images)):
         st.image(images[i], width=200)
         st.write(f"Picture {i} of {len(images)}")
+    st.write(len(images))
     images = np.array(images)
     # st.image(images, width=200)
     st.write(images.shape)
