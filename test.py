@@ -43,7 +43,10 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
 
- 
+
+def convert(images):
+    return np.save("images.npy", images)
+
 st.write("Capture complete!")
 x= st.button("Start")
 if x:
@@ -51,6 +54,6 @@ if x:
     images = np.array(images)
     # st.image(images, width=200)
     st.write(images.shape)
-    np.save("images.npy", images)
-    st.download_button(label="Download images", data=images, file_name="images.npy", mime="application/octet-stream")
+    # np.save("images.npy", images)
+    st.download_button(label="Download images", data=convert(images), file_name="images.npy", mime="application/octet-stream")
     st.write("Capture complete!")
