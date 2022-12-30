@@ -33,7 +33,7 @@ def callback(frame):
     img = frame.to_ndarray(format="bgr24")
 
     img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
-
+    images.append(img)
     return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 # Stream video from the user's webcam using the webrtc_streamer function
@@ -44,3 +44,9 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
  
+st.write("Capture complete!")
+# download button to download the captured images
+images = np.array(images)
+st.image(images, width=200)
+st.write(images.shape)
+st.write("Capture complete!")
