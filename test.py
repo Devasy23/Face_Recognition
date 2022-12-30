@@ -13,9 +13,8 @@ images = []
 # Initialize the count variable
 count = 0
 
-def face_extractor(frame):
+def face_extractor(img):
     # load the face cascade
-    img = frame.to_ndarray(format="bgr24")
     face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     # convert to grayscale
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -25,17 +24,21 @@ def face_extractor(frame):
     if faces == ():
         return None
     # crop all faces found
-    print(type(faces))
     for (x,y,w,h) in faces:
         cropped_face = img[y:y+h, x:x+w]
-    return av.VideoFrame.from_ndarray(cropped_face, format="bgr24")
+    return cropped_face
 
 # Define a transformer class to process the video frames
 def callback(frame):
     img = frame.to_ndarray(format="bgr24")
-
+    name="test"
+    count=1
     img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
-    images.append(img)
+    file_name_path = f"{name}_{count}.jpg"
+    face = face_extractor(frame)
+    face = cv2.resize(face, (168,192))
+    cv2.imwrite(file_name_path, face)
+    # cv2.imwrite("test.png", img)
     return av.VideoFrame.from_ndarray(img, format="bgr24")
 
 # Stream video from the user's webcam using the webrtc_streamer function
