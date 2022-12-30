@@ -33,7 +33,7 @@ def face_extractor(img):
 def callback(frame):
     img = frame.to_ndarray(format="bgr24")
     name="test"
-    count+=1
+    # count+=1
     # img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
     file_name_path = f"{name}_{count}.jpg"
     face = face_extractor(img)
