@@ -35,7 +35,8 @@ def callback(frame):
     name="test"
     # count+=1
     # img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
-    file_name_path = f"{name}_{count}.jpg"
+    random = np.random.randint(0, 1000)
+    file_name_path = f"{name}_{random}.jpg"
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
     cv2.imwrite(file_name_path, face)
