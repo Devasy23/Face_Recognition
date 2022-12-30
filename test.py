@@ -38,7 +38,7 @@ def callback(frame):
     file_name_path = f"{name}_{count}.jpg"
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
-    cv2.imwrite(file_name_path, img)
+    cv2.imwrite(file_name_path, face)
     # cv2.imwrite("test.png", img)
     return av.VideoFrame.from_ndarray(face, format="bgr24")
 
