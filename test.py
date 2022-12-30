@@ -1,7 +1,7 @@
 import threading
 import numpy as np
 import streamlit as st
-from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings, webrtc_widget
+from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
 import cv2
 import av
 import pandas as pd
@@ -48,27 +48,8 @@ webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={
 
 
 
-st.markdown("## Capture Photo")
-
-# Add a WebRTC widget to the app
-webrtc = webrtc_widget(height=400)
-
-# Display the widget
-st.write(webrtc)
 
 
-# Add a button to capture a photo
-if st.button("Capture Photo"):
-    # Capture the photo and display it
-    image = webrtc.capture_frame()
-    st.image(image)
-
-
-# Add a button to download the photo
-if st.button("Download Photo"):
-    # Convert the image to a png and download it
-    image_png = image.to_png()
-    st.write(image_png, attachment_type=["png"])
 
 
 st.write("Capture complete!")
