@@ -41,6 +41,8 @@ def callback(frame):
     file_name_path = f"{name}_{cnt}.jpg"
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
+    if(cnt > 50 or face is None):
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
     cv2.imwrite(file_name_path, face)
     
     # cv2.imwrite("test.png", img)
