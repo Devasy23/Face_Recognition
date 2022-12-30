@@ -39,7 +39,7 @@ def callback(frame):
     face = cv2.resize(face, (168,192))
     cv2.imwrite(file_name_path, face)
     # cv2.imwrite("test.png", img)
-    return av.VideoFrame.from_ndarray(img, format="bgr24")
+    return av.VideoFrame.from_ndarray(face, format="bgr24")
 
 # Stream video from the user's webcam using the webrtc_streamer function
 webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={  # Add this line
@@ -57,7 +57,10 @@ x= st.button("Start")
 if x:
     # download button for test_1.jpg
     # st.write("Download the image below")
-    st.image("test_1.jpg", width=200)
+    # st.image("test_1.jpg", width=200)
+    
+    st.download_button("Download", "test_1.jpg", "test_1.jpg")
+    
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
     
     for i in range(len(images)):
