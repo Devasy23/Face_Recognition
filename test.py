@@ -98,6 +98,8 @@ cwd = os.getcwd()
 
 # Get a list of all files and directories in the cwd
 files_and_dirs = os.listdir(cwd)
+dhruvil = os.listdir(cwd+"/dhruvil1")
+dhruvil.sort()
 
 st.write("Capture complete!")
 x= st.button("Start")
@@ -106,6 +108,7 @@ if x:
     # st.write("Download the image below")
     # st.image("test_1.jpg", width=200)
     st.write(files_and_dirs)
+    st.write(dhruvil)
     num = st.number_input("Enter the number of images to be captured", min_value=1, max_value=10, value=1)
     if st.button("show"):
         stringimg = "test_"+str(num)+".jpg"
