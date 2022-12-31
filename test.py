@@ -11,7 +11,7 @@ import json
 # Initialize a list to store the captured images
 images = []
 
-name = "dhruvil"
+name = "dhruvil1"
 
 def face_extractor(img):
     # load the face cascade
