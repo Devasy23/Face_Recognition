@@ -89,7 +89,7 @@ def get_info():
     # Return the directory and jpg count
     return data["directory"], data["jpg_count"]
      
-
+store_jpg_count(name, 10)
 cwd = os.getcwd()
 
 # Get a list of all files and directories in the cwd
