@@ -12,6 +12,41 @@ import json
 images = []
 
 name = "dhruvil1"
+def count_jpgfiles(dir):
+    count = 0
+    for file in os.listdir(dir):
+        if file.endswith(".jpg"):
+            count += 1
+    return count
+
+
+def store_jpg_count(name, number):
+    """
+    Stores the number of jpg files in the given directory in a JSON file.
+    Parameters:
+        directory (str): The directory to search for jpg files.
+    """
+    # Get the number of jpg files in the given directory
+    jpg_count = number
+    # make a directory of name = name
+    os.mkdir(name)
+    # Create a dictionary to store the directory and jpg count
+    data = {"directory": name, "jpg_count": jpg_count}
+
+    # Write the dictionary to a JSON file
+    with open("info.json", "w") as f:
+        json.dump(data, f)
+
+def get_info():
+    """
+    Get the directory and jpg count from the JSON file.
+    """
+    # Open the JSON file
+    with open("info.json", "r") as f:
+        # Load the JSON file
+        data = json.load(f)
+    # Return the directory and jpg count
+    return data["directory"], data["jpg_count"]
 
 def face_extractor(img):
     # load the face cascade
@@ -47,49 +82,13 @@ def callback(frame):
     # cv2.imwrite("test.png", img)
     return av.VideoFrame.from_ndarray(face, format="bgr24")
 
+store_jpg_count(name, 10)
 # Stream video from the user's webcam using the webrtc_streamer function
 webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={  # Add this line
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
     })
 
-def count_jpgfiles(dir):
-    count = 0
-    for file in os.listdir(dir):
-        if file.endswith(".jpg"):
-            count += 1
-    return count
-
-import json
-
-def store_jpg_count(name, number):
-    """
-    Stores the number of jpg files in the given directory in a JSON file.
-    Parameters:
-        directory (str): The directory to search for jpg files.
-    """
-    # Get the number of jpg files in the given directory
-    jpg_count = number
-    # make a directory of name = name
-    os.mkdir(name)
-    # Create a dictionary to store the directory and jpg count
-    data = {"directory": name, "jpg_count": jpg_count}
-
-    # Write the dictionary to a JSON file
-    with open("info.json", "w") as f:
-        json.dump(data, f)
-
-def get_info():
-    """
-    Get the directory and jpg count from the JSON file.
-    """
-    # Open the JSON file
-    with open("info.json", "r") as f:
-        # Load the JSON file
-        data = json.load(f)
-    # Return the directory and jpg count
-    return data["directory"], data["jpg_count"]
      
-store_jpg_count(name, 10)
 cwd = os.getcwd()
 
 # Get a list of all files and directories in the cwd
