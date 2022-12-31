@@ -7,12 +7,11 @@ import av
 import pandas as pd
 import pickle
 import os
-
+import json
 # Initialize a list to store the captured images
 images = []
 
-# Initialize the count variable
-count = 0
+name = "dhruvil"
 
 def face_extractor(img):
     # load the face cascade
@@ -32,16 +31,16 @@ def face_extractor(img):
 # Define a transformer class to process the video frames
 def callback(frame):
     img = frame.to_ndarray(format="bgr24")
-    name="test"
+    name, count = get_info()
     # count+=1
     # number of jpg files in the folder is equal to the count
-    cnt= count_jpgfiles(os.getcwd())
+    cnt= count_jpgfiles((os.getcwd()+"/"+name))
     # img = cv2.cvtColor(cv2.Canny(img, 100, 200), cv2.COLOR_GRAY2BGR)
     random = np.random.randint(0, 1000)
-    file_name_path = f"{name}_{cnt}.jpg"
+    file_name_path = f"{name}/{name}_{cnt}.jpg"
     face = face_extractor(img)
     face = cv2.resize(face, (168,192))
-    if(cnt > 50 or face is None):
+    if(cnt > count or face is None):
         return av.VideoFrame.from_ndarray(img, format="bgr24")
     cv2.imwrite(file_name_path, face)
     
@@ -60,7 +59,36 @@ def count_jpgfiles(dir):
             count += 1
     return count
 
+import json
 
+def store_jpg_count(name, number):
+    """
+    Stores the number of jpg files in the given directory in a JSON file.
+    Parameters:
+        directory (str): The directory to search for jpg files.
+    """
+    # Get the number of jpg files in the given directory
+    jpg_count = number
+    # make a directory of name = name
+    os.mkdir(name)
+    # Create a dictionary to store the directory and jpg count
+    data = {"directory": name, "jpg_count": jpg_count}
+
+    # Write the dictionary to a JSON file
+    with open("info.json", "w") as f:
+        json.dump(data, f)
+
+def get_info():
+    """
+    Get the directory and jpg count from the JSON file.
+    """
+    # Open the JSON file
+    with open("info.json", "r") as f:
+        # Load the JSON file
+        data = json.load(f)
+    # Return the directory and jpg count
+    return data["directory"], data["jpg_count"]
+     
 
 cwd = os.getcwd()
 

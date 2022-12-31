@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import random
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
-
+from test import *
 
 def train_face_recognition():
     # Ask the user for their name
@@ -14,42 +14,8 @@ def train_face_recognition():
 
     # Wait for the user to press the "Start" button
     if st.button("Start"):
-        # Initialize the count variable
-        count = 0
-
-        # Collect the specified number of samples from the webcam input
-        while True:
-            # Capture an image using the st.camera_input widget
-            img_file_buffer = st.camera_input("Take a pic", key=random.randint(0, 1000000))
-
-            # If the user took a picture, process it
-            if img_file_buffer is not None:
-                # Convert the image file buffer to a NumPy array
-                frame = np.array(img_file_buffer.getvalue(), np.uint8)
-
-                # Extract the face from the frame
-                face = face_extractor(frame)
-
-                # If a face was found, save it to a file and display it
-                if face is not None:
-                    count += 1
-                    face = cv2.resize(face, (168,192))
-
-                    # Save the face to a file
-                    file_name_path = f"{name}_{count}.jpg"
-                    cv2.imwrite(file_name_path, face)
-
-                    # Display the face
-                    st.image(face, width=200)
-
-                    # Display the count
-                    st.write(f"Picture {count} of {num_pics}")
-
-                # If the required number of pictures has been reached, break the loop
-                if count >= num_pics:
-                    break
-                
-        st.write("Capture complete!")
+        pass
+        
 
 
 
