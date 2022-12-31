@@ -29,7 +29,12 @@ def store_jpg_count(name, number):
     # Get the number of jpg files in the given directory
     jpg_count = number
     # make a directory of name = name
-    os.mkdir(name)
+    try:
+        os.mkdir(name)
+    except:
+        st.warning("Directory already exists")
+        pass
+        
     # Create a dictionary to store the directory and jpg count
     data = {"directory": name, "jpg_count": jpg_count}
 
