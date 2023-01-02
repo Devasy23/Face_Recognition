@@ -14,7 +14,7 @@ from joblib import dump, load
 # Initialize a list to store the captured images
 images = []
 
-name = "dhruvil1"
+name = "dhruvil2"
 def count_jpgfiles(dir):
     count = 0
     for file in os.listdir(dir):
@@ -92,12 +92,12 @@ def callback(frame):
 
 store_jpg_count(name, 10)
 # Stream video from the user's webcam using the webrtc_streamer function
+cwd = os.getcwd()
 webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={  # Add this line
         "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
     })
 
      
-cwd = os.getcwd()
 
 # Get a list of all files and directories in the cwd
 files_and_dirs = os.listdir(cwd)
@@ -154,7 +154,9 @@ def train(name: str, count: int):
     
     # Load the training images and labels
     X_train = []  # images of multiple people
-    y_train = np.ones(count)  # labels corresponding to the people in the images (e.g. 0, 1, 2, etc.)
+    # for y train we need to create a list of labels
+    y_train = []  # assign class labels based on the directory name
+    # get the directory and jpg count from the JSON file
     
     # Train a PCA model
     pca = load('pca.pkl')
