@@ -1,9 +1,11 @@
-streamlit
-opencv-python-headless
-streamlit-webrtc
 numpy
 av
 joblib
 scikit-learn
-matplotlib
-aiortc
+aiortc==1.3.2
+matplotlib==3.5.1
+opencv-python-headless==4.5.5.64
+streamlit==1.14.0
+streamlit_webrtc==0.44.0
+typing_extensions==4.1.1
+protobuf~=3.19.0
