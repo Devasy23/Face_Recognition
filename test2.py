@@ -33,8 +33,12 @@ if mode == "Train":
     
         
     set_info(name, num_pics)
-    webrtc_streamer(key="Capture Photos", video_frame_callback=callback, media_stream_constraints={"video": True, "audio": False}, 
-                    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+    try:
+        webrtc_streamer(key="Photos", video_frame_callback=callback, media_stream_constraints={"video": True, "audio": False}, 
+                        rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]})
+    except: 
+        st.error("Please refresh the page and try again")
+        st.stop()
     # Get a list of all files and directories in the cwd
     if st.button("Done"):
         path = os.getcwd()
