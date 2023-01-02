@@ -29,14 +29,16 @@ if mode == "Train":
     # Display a warning about proper lighting
     st.warning("Make sure you are in a well-lit area before starting the capture process.")
     
-    set_info(name, num_pics)
     # Wait for the user to press the "Start" button
     if st.button("Start"):
+        
+        set_info(name, num_pics)
         webrtc_streamer(key="Capture Photos", video_frame_callback=callback)
         # Get a list of all files and directories in the cwd
-        path = os.getcwd()
-        path += "/{}".format(name)
-        X_train = preprocess_images(path)
+        if st.button("Done"):
+            path = os.getcwd()
+            path += "/{}".format(name)
+            X_train = preprocess_images(path)
     
 elif mode == "Test":
     # Test the face recognition system using the trained model
