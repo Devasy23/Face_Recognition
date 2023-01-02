@@ -3,3 +3,5 @@ opencv-python-headless
 streamlit-webrtc
 numpy
 av
+joblib
+scikit-learn

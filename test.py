@@ -8,6 +8,9 @@ import pandas as pd
 import pickle
 import os
 import json
+from sklearn.decomposition import PCA
+from sklearn.svm import SVC
+from joblib import dump, load
 # Initialize a list to store the captured images
 images = []
 
@@ -109,10 +112,7 @@ if x:
     # st.image("test_1.jpg", width=200)
     st.write(files_and_dirs)
     st.write(dhruvil)
-    num = st.number_input("Enter the number of images to be captured", min_value=1, max_value=10, value=1)
-    if st.button("show"):
-        stringimg = "test_"+str(num)+".jpg"
-        st.image(stringimg, width=200)
+    
     
     # st.markdown(get_binary_file_downloader_html("test_1.jpg", "test_1.jpg"), unsafe_allow_html=True)
     
@@ -126,3 +126,102 @@ if x:
     # st.write(images[0].shape)
     st.write(images)
     st.write("Capture complete!")
+
+
+
+def train(name: str, count: int):
+    """
+    Train a face recognition model using the Eigenface algorithm and an SVM classifier.
+    
+    Parameters:
+    - name: The name of the person whose face will be recognized.
+    - count: The number of images to use for training.
+    
+    Returns:
+    - A tuple containing the trained model and the PCA transformer used to preprocess the data.
+    """
+    # Create a directory to store the training images
+    try:
+        os.mkdir(name)
+    except:
+        st.warning("Directory already exists")
+        pass
+        
+    # Store the directory and image count in a JSON file
+    data = {"directory": name, "jpg_count": count}
+    with open("info.json", "w") as f:
+        json.dump(data, f)
+    
+    # Load the training images and labels
+    X_train = []  # images of multiple people
+    y_train = np.ones(count)  # labels corresponding to the people in the images (e.g. 0, 1, 2, etc.)
+    
+    # Train a PCA model
+    pca = load('pca.pkl')
+    pca.fit(X_train)
+    
+    # Set up the classification pipeline
+    classifier = SVC(kernel='linear', C=1.0)
+    
+    # Train the classifier on the transformed training data
+    X_train_transformed = pca.transform(X_train)
+    classifier.fit(X_train_transformed, y_train)
+    
+    # Save the trained model and PCA transformer
+    dump(classifier, 'classifier.pkl')
+    dump(pca, 'pca.pkl')
+    
+    return classifier, pca
+
+
+def get_next_class_number():
+    """
+    Get the next available class number based on the number of people stored in the log file.
+    """
+    # Initialize the class number to 0
+    class_number = 0
+    
+    # Open the log file
+    with open("log.json", "r") as f:
+        # Load the log file as a dictionary
+        log = json.load(f)
+    
+    # Get the names of all the people stored in the log file
+    names = [entry["name"] for entry in log]
+    
+    # Increment the class number for each person stored in the log file
+    for name in names:
+        class_number += 1
+    
+    return class_number
+
+def create_log_file(name: str, file_paths: list, class_: int):
+    """
+    Create a log file to store information about the captured images.
+    Parameters:
+    - name: The name of the person whose face is captured in the images.
+    - file_paths: A list of file paths for the captured images.
+    - class_: The class assigned to the images in the classifier.
+    """
+    # Create a dictionary to store the log information
+    data = {
+        "name": name,
+        "file_paths": file_paths,
+        "class": class_
+    }
+
+    # if the log file already exists, append the new data to the existing file
+    if os.path.exists("log.json"):
+        # Open the log file
+        with open("log.json", "r") as f:
+            # Load the log file as a dictionary
+            log = json.load(f)
+        
+        # Append the new data to the existing log file
+        log.append(data)
+        return log
+    
+    # Write the dictionary to a JSON file
+    with open("log.json", "w") as f:
+        json.dump(data, f)
+        return data
