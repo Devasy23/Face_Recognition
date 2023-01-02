@@ -16,6 +16,15 @@ import threading
 import time
 import random
 
+def get_name(number):
+    # load log.json
+    with open("log.json", "r") as f:
+        data = json.load(f)
+    # get the name from the log.json
+    name = data[number]["name"]
+    return name
+    
+
 def set_info(name, number):
     """
     Stores the number of jpg files in the given directory in a JSON file.
@@ -38,30 +47,23 @@ def set_info(name, number):
     with open("info.json", "w") as f:
         json.dump(data, f)
 
-def predict_face(face):
+def predict_face(face, pca, classf):
     face = np.mean(face,axis=2).T.flatten()
     face = face.reshape(1,-1)
     face = pca.transform(face)
     prediction = classf.predict(face)
     return int(prediction[0])
 
-def predict_image(image):
+def predict_image(image, pca, classf, bool=True):
+    if(bool):
+        image = plt.imread(image)
     # load the face cascade
-    face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
-    # convert to grayscale
-    gray = cv2.cvtColor(image,cv2.COLOR_BGR2GRAY)
-    # detect faces
-    faces = face_cascade.detectMultiScale(gray, 1.3, 5)
-    # if no face detected
-    
-    if faces is None:
+
+    if face_extractor(image) is None:
         return None
     # crop all faces found
-    for (x,y,w,h) in faces:
-        cropped_face = image[y:y+h, x:x+w]
-    face = cv2.resize(cropped_face, (168,192))
-
-    return predict_face(face)
+    face = cv2.resize(face_extractor(image), (168,192))
+    return predict_face(face, pca, classf)
 
 def face_extractor(img):
     # load the face cascade
@@ -162,20 +164,24 @@ def get_next_class_number():
     class_number = 0
     
     # Open the log file
-    with open("log.json", "r") as f:
-        # Load the log file as a dictionary
-        log = json.load(f)
+    try:
+        with open("log.json", "r") as f:
+            # Load the log file as a dictionary
+            log = json.load(f)
+        # count the number of keys in the dictionary
+        class_number = len(log.keys())+1
+    except:
+        # If the log file doesn't exist, create an empty list
+        log = {}
+        # pass
     
     # Get the names of all the people stored in the log file
-    names = [entry["name"] for entry in log]
     
     # Increment the class number for each person stored in the log file
-    for name in names:
-        class_number += 1
     
     return class_number
 
-def create_log_file(name: str, file_paths: list, class_: int):
+def create_log_file(name: str, file_paths: str):
     """
     Create a log file to store information about the captured images.
     Parameters:
@@ -183,11 +189,16 @@ def create_log_file(name: str, file_paths: list, class_: int):
     - file_paths: A list of file paths for the captured images.
     - class_: The class assigned to the images in the classifier.
     """
+    
+        
+    
+    class_ = get_next_class_number()
     # Create a dictionary to store the log information
     data = {
-        "name": name,
-        "file_paths": file_paths,
-        "class": class_
+        class_:{
+            "name": name,
+            "file_paths": file_paths
+        }
     }
 
     # if the log file already exists, append the new data to the existing file
@@ -198,7 +209,7 @@ def create_log_file(name: str, file_paths: list, class_: int):
             log = json.load(f)
         
         # Append the new data to the existing log file
-        log.append(data)
+        log[class_] = data[class_]
         return log
     
     # Write the dictionary to a JSON file
@@ -260,7 +271,7 @@ def preprocess_images(path):
     custom_images = []
     input_faces = os.listdir(path)
     for face in input_faces:
-        testFace = (plt.imread('testfaces/'+face))
+        testFace = (plt.imread(path+'\\'+face))
         # preprocess faces to match the size of the training data
         testFace = np.mean(testFace,axis=2).T.flatten()
         custom_images.append(testFace)
@@ -270,4 +281,7 @@ def preprocess_images(path):
     # concatenate custom faces with original faces
     custom_images = np.array(custom_images)
     custom_images = custom_images.T
+    if(custom_images.shape[0] == 32256):
+        custom_images = custom_images.T
     return custom_images
+
