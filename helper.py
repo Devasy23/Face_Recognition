@@ -1,5 +1,5 @@
 # this contains all the helper functions for the main program
- 
+from matplotlib import pyplot as plt
 import os
 import cv2
 import numpy as np
@@ -235,3 +235,39 @@ def store_jpg_count(name, number):
     with open("info.json", "w") as f:
         json.dump(data, f)
 
+def preprocess_image(pathofimg, target_size):
+    """
+    Preprocess an image to be used as input to the face recognition model.
+    Parameters:
+    - image: The image to preprocess.
+    - target_size: The size to which the image will be resized.
+    Returns:
+    - The preprocessed image.
+    """
+    tester_face = (plt.imread(pathofimg))
+    tester_face = np.mean(tester_face,axis=2).T.flatten()
+    tester_face = tester_face.reshape(1,-1)
+    return tester_face
+
+def preprocess_images(path):
+    """
+    Preprocess an image to be used as input to the face recognition model.
+    Parameters:
+    - directory: The directory containing the images to preprocess.
+    Returns:
+    - The preprocessed image.
+    """
+    custom_images = []
+    input_faces = os.listdir(path)
+    for face in input_faces:
+        testFace = (plt.imread('testfaces/'+face))
+        # preprocess faces to match the size of the training data
+        testFace = np.mean(testFace,axis=2).T.flatten()
+        custom_images.append(testFace)
+        # print(testFace.shape)
+
+
+    # concatenate custom faces with original faces
+    custom_images = np.array(custom_images)
+    custom_images = custom_images.T
+    return custom_images

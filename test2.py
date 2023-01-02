@@ -35,28 +35,8 @@ if mode == "Train":
         webrtc_streamer(key="Capture Photos", video_frame_callback=callback)
         # Get a list of all files and directories in the cwd
         path = os.getcwd()
-        dir_list = os.listdir(path)
-        # Create a list of all the images
-        image_list = []
-        for file_name in dir_list:
-            if file_name.endswith(".jpg"):
-                image_list.append(file_name)
-        # Create a list of all the cropped faces
-        face_list = []
-        for image in image_list:
-            img = cv2.imread(image)
-            face = face_extractor(img)
-            if face is not None:
-                face = cv2.resize(face, (200, 200))
-                face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
-                face_list.append(face)
-        # Save the cropped faces in a separate directory
-        for i in range(len(face_list)):
-            file_name_path = "faces/" + name + str(i) + ".jpg"
-            cv2.imwrite(file_name_path, face_list[i])
-        # Display a message to the user
-        st.success("Images captured successfully.")
-        
+        path += "/{}".format(name)
+        X_train = preprocess_images(path)
     
 elif mode == "Test":
     # Test the face recognition system using the trained model
