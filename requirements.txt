@@ -6,3 +6,4 @@ av
 joblib
 scikit-learn
 matplotlib
+aiortc
