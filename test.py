@@ -93,9 +93,7 @@ def callback(frame):
 store_jpg_count(name, 10)
 # Stream video from the user's webcam using the webrtc_streamer function
 cwd = os.getcwd()
-webrtc_streamer(key="example", video_frame_callback=callback,rtc_configuration={  # Add this line
-        "iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]
-    })
+webrtc_streamer(key="example", video_frame_callback=callback)
 
      
 
