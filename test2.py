@@ -4,7 +4,7 @@ import cv2
 import numpy as np
 import random
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase, ClientSettings
-from test import *
+# from test import *
 from helper import *
  
 def testback(frame):
