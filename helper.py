@@ -271,7 +271,7 @@ def preprocess_images(path):
     custom_images = []
     input_faces = os.listdir(path)
     for face in input_faces:
-        testFace = (plt.imread(path+'\\'+face))
+        testFace = (plt.imread(path+'/'+face))
         # preprocess faces to match the size of the training data
         testFace = np.mean(testFace,axis=2).T.flatten()
         custom_images.append(testFace)

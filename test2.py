@@ -95,7 +95,7 @@ if mode == "Train":
     # Get a list of all files and directories in the cwd
     if st.button("Done"):
         path = os.getcwd()
-        path += "\\{}".format(name)
+        path += "/{}".format(name)
         X_train = preprocess_images(path)
         st.success("Training the model...")
         create_log_file(name, name)
