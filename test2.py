@@ -5,6 +5,9 @@ from streamlit_webrtc import webrtc_streamer
 from helper import *
 from joblib import dump, load
 
+with open('custom.css')as f:
+    st.markdown(f"<style>{f.read()}</style>", unsafe_allow_html = True)
+
 
 
 def draw_bounding_box(frame, person):

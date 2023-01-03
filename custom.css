@@ -1,0 +1,114 @@
+button {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+button:hover {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: rgb(67, 13, 13);
+    color: #333;
+    border: 1px solid rgb(119, 200, 240);
+    size: 1.5rem;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+input:hover, textarea:hover {
+    font-family: 'Raleway', sans-serif;
+    /* background-color: rgb(20, 17, 17); */
+    border: 1px solid rgb(162, 114, 114);
+    font-size: 1.5rem;
+    padding: 10px;
+    width: 100%;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+input, textarea{
+    font-family: 'Raleway', sans-serif;
+    background-color: rgb(20, 17, 17);
+    border: 1px solid rgb(162, 114, 114);
+    font-size: 1.5rem;
+    padding: 10px;
+    width: 100%;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn:hover {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: rgb(67, 13, 13);
+    color: #333;
+    border: 1px solid rgb(119, 200, 240);
+    size: 1.5rem;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn2 {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn2:hover {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: rgb(67, 13, 13);
+    color: #333;
+    border: 1px solid rgb(119, 200, 240);
+    size: 1.5rem;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn3 {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: #333;
+    border: none;
+    color: #fff;
+    font-size: 1em;
+    padding: 10px 20px;
+    border-radius: 30px;
+    transition: 0.3s;
+  }
+  .btn3:hover {
+    font-family: 'Alegreya Sans', sans-serif;
+    background-color: rgb(67, 13, 13);
+    color: #333;
+    border: 1px solid rgb(119, 200, 240);
+    size: 1.5rem;
+    border-radius: 30px;
+    transition: 0.3s;
+}
+title {
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 1.5rem;
+    color: #fff;
+    transition: 0.3s;
+}
+.css-10trblm {
+    font-family: 'Alegreya Sans', sans-serif;
+    font-size: 2rem;
+    color: #fff;
+    transition: 0.3s;
+}
+.css-10trblm:hover {
+    font-family: 'Roboto', sans-serif;
+    font-size: 2.5rem;
+    color: #fff;
+    transition: 0.1s;
+}
