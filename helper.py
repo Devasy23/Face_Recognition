@@ -91,6 +91,29 @@ def get_info():
     # Return the directory and jpg count
     return data["directory"], data["jpg_count"]
 
+def get_name_by_class(class_number: int):
+    """
+    Get the name of the person with the given class number from the log file.
+    
+    Parameters:
+    - class_number: The class number to search for.
+    
+    Returns:
+    - The name of the person with the given class number, or None if no such person is found.
+    """
+    # Open the log file
+    with open("log.json", "r") as f:
+        # Load the log file as a dictionary
+        log = json.load(f)
+    
+    # Search for an entry with the given class number
+    for entry in log["User_details"]:
+        if entry["Class"] == class_number:
+            return entry["Name"]
+    
+    # If no entry was found, return None
+    return None
+
 def callback(frame):
     img = frame.to_ndarray(format="bgr24")
     name, count = get_info()
@@ -162,60 +185,46 @@ def get_next_class_number():
     """
     # Initialize the class number to 0
     class_number = 0
-    
+
     # Open the log file
     try:
         with open("log.json", "r") as f:
             # Load the log file as a dictionary
             log = json.load(f)
-        # count the number of keys in the dictionary
-        class_number = len(log.keys())+1
+        # Get the list of user details from the log file
+        users = log["User_details"]
+        # Get the number of users stored in the log file
+        num_users = len(users)
+        # Set the class number to the number of users stored in the log file
+        class_number = num_users
+        
     except:
-        # If the log file doesn't exist, create an empty list
-        log = {}
-        # pass
-    
-    # Get the names of all the people stored in the log file
-    
-    # Increment the class number for each person stored in the log file
-    
+        # If the log file doesn't exist, create an empty dictionary
+        log = {"User_details": []}
+
     return class_number
 
-def create_log_file(name: str, file_paths: str):
-    """
-    Create a log file to store information about the captured images.
+def create_log_file(name: str, count: int, filename="log.json"):
+    ''' Creates a log file with the name of the person and the number of images used for training.
     Parameters:
-    - name: The name of the person whose face is captured in the images.
-    - file_paths: A list of file paths for the captured images.
-    - class_: The class assigned to the images in the classifier.
-    """
-    
-        
-    
+        name (str): The name of the person whose face will be recognized.
+        count (int): The number of images to use for training.
+        filename (str): The name of the log file.
+    Returns:
+        class_ (int): The class number assigned to the person.
+         
+    '''
     class_ = get_next_class_number()
-    # Create a dictionary to store the log information
-    data = {
-        class_:{
-            "name": name,
-            "file_paths": file_paths
-        }
-    }
-
-    # if the log file already exists, append the new data to the existing file
-    if os.path.exists("log.json"):
-        # Open the log file
-        with open("log.json", "r") as f:
-            # Load the log file as a dictionary
-            log = json.load(f)
-        
-        # Append the new data to the existing log file
-        log[class_] = data[class_]
-        return log
-    
-    # Write the dictionary to a JSON file
-    with open("log.json", "w") as f:
-        json.dump(data, f)
-        return data
+    y = {"Name": name,
+	"Count" : count,
+    "Class" : class_
+	}
+    with open(filename,'r+') as file:
+        file_data = json.load(file)
+        file_data["User_details"].append(y)
+        file.seek(0)
+        json.dump(file_data, file, indent = 4)
+    return class_
 
 def count_jpgfiles(dir):
     count = 0

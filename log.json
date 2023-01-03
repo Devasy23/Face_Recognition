@@ -1,1 +1,15 @@
-{"0": {"name": "DhruvTest", "file_paths": "testfaces"}, "999": {"name":"Devasy", "file_p":"tf1"}}
+{
+    "User_details": [
+        {
+            "Name": "test",
+            "Count": 50,
+            "Class": 0
+        },
+        {
+            "Name": "Devasy",
+            "Count": 50,
+            "Class": 1
+        }
+        
+    ]
+}

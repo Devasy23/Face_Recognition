@@ -1,10 +1,7 @@
-# upgraded test code:
 import streamlit as st
 import cv2
 import numpy as np
-import random
 from streamlit_webrtc import webrtc_streamer
-# from test import *
 from helper import *
 from joblib import dump, load
 
@@ -23,7 +20,7 @@ def draw_bounding_box(frame, person):
     # Draw a bounding box around the first face detected
     if len(faces) > 0:
         (x, y, w, h) = faces[0]
-        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 0), 2)
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 255, 60), 2)
 
         # Display the name of the person above the bounding box
         cv2.putText(img, person, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 2)
@@ -41,8 +38,8 @@ def wrapper_function(frame):
     person= predict_image(plt.imread('cache.jpg') , pca, classf, bool=False)
     with open("text.txt", "w") as f:
         f.write(f"{person}")
-    person_name = get_name(person)
-    return draw_bounding_box(frame, "person_name")
+    person_name = get_name_by_class(person)
+    return draw_bounding_box(frame, person_name)
 
 
 
@@ -78,42 +75,61 @@ mode = st.selectbox("Select a mode", ("Train", "Test"))
  
 if mode == "Train":
     # Ask the user for their name
-    name = st.text_input("Enter your name:")
-    num_pics = st.number_input("Enter the number of pictures to capture:", min_value=10, max_value=100, value=50)
+    with st.form(key='my_form'):
+        name = st.text_input("Enter your name:")
+        num_pics = st.number_input("Enter the number of pictures to capture:", min_value=10, max_value=100, value=50)
+        submit_button = st.form_submit_button(label='Submit')
     # Display a warning about proper lighting
     st.warning("Make sure you are in a well-lit area before starting the capture process.")
     
     # Wait for the user to press the "Start" button
     
+    if(st.button("Start Capturing ")):
+        set_info(name, num_pics)
+        try:
+            webrtc_streamer(key="example", video_frame_callback=callback)
+        except Exception as e: 
+            st.error("Please refresh the page and try again", e)
+            
+        # Get a list of all files and directories in the cwd
         
-    set_info(name, num_pics)
-    try:
-        webrtc_streamer(key="example", video_frame_callback=callback)
-    except: 
-        st.error("Please refresh the page and try again")
-        
-    # Get a list of all files and directories in the cwd
-    if st.button("Done"):
-        path = os.getcwd()
-        path += "/{}".format(name)
-        X_train = preprocess_images(path)
-        st.success("Training the model...")
-        create_log_file(name, name)
-        class_ = get_next_class_number()
-        # initialize ytrain  with the class number * number of images
-        x_t = preprocess_images('testfaces')
-        y_t = np.full((x_t.shape[0],), 0)
-        y_train = np.full((X_train.shape[0],), class_)
-        y_train = np.concatenate((y_train, y_t))
-        X_train = np.concatenate((X_train, x_t))
-        st.write("X_train shape: ", X_train.shape[0])
-        # train the model
-        pca = load('pca.pkl')
-        x_pca = pca.transform(X_train)
-        classf = SVC(kernel='rbf', class_weight='balanced', C=1e3, gamma=0.001)
-        classf.fit(x_pca, y_train)
-        dump(classf, 'model.pkl')
-        st.success("Model trained successfully")
+        if st.button("Train"):
+            classn = create_log_file(name, num_pics)
+            path = os.getcwd()
+            path += "/{}".format(name)
+
+            # Add try-except block before preprocessing for x_train
+            try:
+                X_train = preprocess_images(path)
+            except:
+                st.error("Error preprocessing images for x_train. Please refresh the page and try again.")
+
+            st.success("Training the model...")
+            class_ = classn
+
+            # Add try-except block before getting test faces
+            try:
+                x_t = preprocess_images('testfaces')
+            except:
+                st.error("Error getting test faces. Please refresh the page and try again.")
+
+            y_t = np.full((x_t.shape[0],), 0)
+            y_train = np.full((X_train.shape[0],), class_)
+            y_train = np.concatenate((y_train, y_t))
+            X_train = np.concatenate((X_train, x_t))
+            st.write("X_train shape: ", X_train.shape[0])
+            
+            # Add try-except block before transforming through PCA
+            try:
+                pca = load('pca.pkl')
+                x_pca = pca.transform(X_train)
+            except:
+                st.error("Error transforming images through PCA. Please refresh the page and try again.")
+
+            classf = SVC(kernel='rbf', class_weight='balanced', C=1e3, gamma=0.001)
+            classf.fit(x_pca, y_train)
+            dump(classf, 'model.pkl')
+            st.success("Model trained successfully")
         
 
 elif mode == "Test":
